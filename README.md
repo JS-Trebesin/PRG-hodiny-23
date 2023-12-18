@@ -2,4 +2,4 @@
 
 ## V tomto repozitáři naleznete kód z hodin
 
-## Materiály k předmětu WET jsou dostupné [zde](https://github.com/JS-Trebesin/WET-materialy)
+## Materiály k předmětu PRG jsou dostupné [zde](https://github.com/JS-Trebesin/PRG-materialy)
