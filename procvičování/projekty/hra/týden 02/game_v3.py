@@ -13,18 +13,26 @@ screen_width = 800
 # vytvoříme obraz
 screen = pygame.display.set_mode((screen_width, screen_height))
 
+# player_x a player_y v nové verzi kódu už řeší pouze spawn
 player_x = 100
 player_y = 200
 # vytvoření surface pro postavičku hráče - načtení obrázku
 player_surf = pygame.image.load("player_sprite.png").convert_alpha()
+
+# kvůli detekci kolize nejprve vytvoříme rectangle pro hráče
 player_rect = player_surf.get_rect(midbottom=(player_x, player_y))
 
 
 # vytvoření surface pro postavičku monster - nepřítele - načtení obrázku
 monster_surf = pygame.image.load("monster_sprite.png").convert_alpha()
+
+# kvůli detekci kolize nejprve vytvoříme rectangle pro monstrum
 monster_rect = monster_surf.get_rect(midbottom=(300, 600))
 
+# počítání životů - začátek
 lives = 3
+
+# vytvoření fontu - None znamená defaultní font, 25 je velikost
 font = pygame.font.Font(None, 25)
 
 # herní smyčka
@@ -40,6 +48,7 @@ while True:
     key = pygame.key.get_pressed()
 
     # pokud je stisknutá šipka doleva, atd.
+    # změna ovládání - nyní pohybujeme vytvořením rectanglem
     if key[pygame.K_LEFT]:
         player_rect.left -= 10
     elif key[pygame.K_RIGHT]:
@@ -52,15 +61,21 @@ while True:
     # obarví obrazovku na bílo
     screen.fill((255, 255, 255))
 
+    # renderování našeho fontu - pomocí fontu vytvoříme text, antialiasing a barvu
     text = font.render(f"Lives: {lives}", False, "#000000")
+
+    # text vypíšeme do obrazovky
     screen.blit(text, (700, 10))
 
+    # pohyb monstra
     monster_rect.left -= 5
+
     # na screen vykresli - surface hráče, na x,y
     screen.blit(player_surf, player_rect)
     # na screen vykresli - surface monstra, na x,y
     screen.blit(monster_surf, monster_rect)
 
+    # detekce kolize a ubírání životů v případě kolize
     if player_rect.colliderect(monster_rect):
         lives -= 1
 
