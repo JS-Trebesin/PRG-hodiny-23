@@ -35,6 +35,10 @@ lives = 3
 # vytvoření fontu - None znamená defaultní font, 25 je velikost
 font = pygame.font.Font(None, 25)
 
+monster_direction = "Left"
+
+game_over = False
+
 # herní smyčka
 while True:
     # kontroluje nám události, které se dějí v naší hře
@@ -44,40 +48,54 @@ while True:
             pygame.quit()
             exit()
 
-    # proměnná key, pod ní schováme stisknutou klávesu
-    key = pygame.key.get_pressed()
+    if game_over == False:
+        # proměnná key, pod ní schováme stisknutou klávesu
+        key = pygame.key.get_pressed()
 
-    # pokud je stisknutá šipka doleva, atd.
-    # změna ovládání - nyní pohybujeme vytvořením rectanglem
-    if key[pygame.K_LEFT]:
-        player_rect.left -= 10
-    elif key[pygame.K_RIGHT]:
-        player_rect.right += 10
-    elif key[pygame.K_UP]:
-        player_rect.top -= 10
-    elif key[pygame.K_DOWN]:
-        player_rect.bottom += 10
+        # pokud je stisknutá šipka doleva, atd.
+        # změna ovládání - nyní pohybujeme vytvořením rectanglem
+        if key[pygame.K_LEFT]:
+            player_rect.left -= 10
+        elif key[pygame.K_RIGHT]:
+            player_rect.right += 10
+        elif key[pygame.K_UP]:
+            player_rect.top -= 10
+        elif key[pygame.K_DOWN]:
+            player_rect.bottom += 10
 
-    # obarví obrazovku na bílo
-    screen.fill((255, 255, 255))
+        # obarví obrazovku na bílo
+        screen.fill((255, 255, 255))
 
-    # renderování našeho fontu - pomocí fontu vytvoříme text, antialiasing a barvu
-    text = font.render(f"Lives: {lives}", False, "#000000")
+        # renderování našeho fontu - pomocí fontu vytvoříme text, antialiasing a barvu
+        text = font.render(f"Lives: {lives}", False, "#000000")
 
-    # text vypíšeme do obrazovky
-    screen.blit(text, (700, 10))
+        # text vypíšeme do obrazovky
+        screen.blit(text, (700, 10))
 
-    # pohyb monstra
-    monster_rect.left -= 5
+        # pohyb monstra
+        if monster_rect.x <= 0:
+            monster_direction = "Right"
+        elif monster_rect.x >= screen_width - 50:
+            monster_direction = "Left"
 
-    # na screen vykresli - surface hráče, na x,y
-    screen.blit(player_surf, player_rect)
-    # na screen vykresli - surface monstra, na x,y
-    screen.blit(monster_surf, monster_rect)
+        if monster_direction == "Left":
+            monster_rect.x -= 5
+        elif monster_direction == "Right":
+            monster_rect.x += 5
 
-    # detekce kolize a ubírání životů v případě kolize
-    if player_rect.colliderect(monster_rect):
-        lives -= 1
+        # na screen vykresli - surface hráče, na x,y
+        screen.blit(player_surf, player_rect)
+        # na screen vykresli - surface monstra, na x,y
+        screen.blit(monster_surf, monster_rect)
+
+        # detekce kolize a ubírání životů v případě kolize
+        if player_rect.colliderect(monster_rect):
+            lives -= 1
+
+        if lives <= 0:
+            game_over = True
+    else:
+        screen.fill((0, 0, 0))
 
     # updatuje vše
     pygame.display.update()
