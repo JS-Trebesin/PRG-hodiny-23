@@ -5,7 +5,6 @@ from utility import get_image
 from player import Player
 from monster import Monster
 
-import player
 
 # inicializuje hru - spustíme pygame
 pygame.init()
