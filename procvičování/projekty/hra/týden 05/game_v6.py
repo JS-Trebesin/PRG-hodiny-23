@@ -1,5 +1,11 @@
 import pygame
 from sys import exit
+from settings import *
+from utility import get_image
+from player import Player
+from monster import Monster
+
+import player
 
 # inicializuje hru - spustíme pygame
 pygame.init()
@@ -7,74 +13,10 @@ pygame.init()
 # vytvoř hodiny
 clock = pygame.time.Clock()
 
-# naše proměnné, které udávají výšku a šířku
-screen_height = 600
-screen_width = 800
+
 # vytvoříme obraz
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
-         super().__init__()
-         self.x = 100
-         self.y = 200
-         self.index = 0
-         self.spritesheet = pygame.image.load("man_brownhair_run.png").convert_alpha()
-         self.surf = get_image(self.spritesheet, 0, 0, 15, 16, 3)
-         self.rect = self.surf.get_rect(midbottom=(self.x, self.y))
-         self.lives = 3
-
-
-    def animation(self, direction):
-        frame_count = 4
-
-        self.index += 0.1
-        if self.index >= frame_count:
-            self.index = 0
-
-        self.surf = get_image(self.spritesheet, int(self.index), direction, 15, 16, 3)
-
-    def update(self):
-        if key[pygame.K_LEFT]:
-            self.rect.x -= 10
-            self.animation(2)
-        elif key[pygame.K_RIGHT]:
-            self.rect.x += 10
-            self.animation(3)
-        elif key[pygame.K_UP]:
-            self.rect.y -= 10
-            self.animation(1)
-        elif key[pygame.K_DOWN]:
-            self.rect.y += 10
-            self.animation(0)
-        
-        if self.rect.x < 0:
-            self.rect.x = screen_width - 10
-        elif self.rect.x > screen_width:
-            self.rect.x = 10
-        
-        if self.rect.y < 0:
-            self.rect.y = screen_height - 10
-        elif self.rect.y > screen_height:
-            self.rect.y = 10
-    
-    
-
-def monster_animation():
-    global monster_surf, monster_index
-    monster_index += 0.1
-
-    if monster_index > len(monster_walk):
-        monster_index = 0
-    monster_surf = monster_walk[int(monster_index)]
-
-def get_image(sheet, frame_x, frame_y, width, height, scale):
-    img = pygame.Surface((width, height)).convert_alpha()
-    img.blit(sheet, (0, 0), ((frame_x * width), (frame_y * height), width, height))
-    img = pygame.transform.scale(img, (width*scale, height*scale))
-    img.set_colorkey((0, 0, 0))
-    return img
 
 
 # player_x a player_y v nové verzi kódu už řeší pouze spawn
@@ -106,7 +48,7 @@ lives = 3
 # vytvoření fontu - None znamená defaultní font, 25 je velikost
 font = pygame.font.Font(None, 25)
 
-monster_direction = "Left"
+
 
 game_over = False
 
@@ -115,6 +57,7 @@ elapsed_time = 0
 invul = False
 
 player = Player()
+monster = Monster()
 
 # herní smyčka
 while True:
@@ -129,7 +72,7 @@ while True:
 
     if game_over == False:
         # proměnná key, pod ní schováme stisknutou klávesu
-        key = pygame.key.get_pressed()
+        
 
         # pokud je stisknutá šipka doleva, atd.
         # změna ovládání - nyní pohybujeme vytvořením rectanglem
@@ -144,33 +87,26 @@ while True:
         # text vypíšeme do obrazovky
         screen.blit(text, (700, 10))
 
-        # pohyb monstra
-        if monster_rect.x <= 0:
-            monster_direction = "Right"
-        elif monster_rect.x >= screen_width - 50:
-            monster_direction = "Left"
 
-        if monster_direction == "Left":
-            monster_rect.x -= 5
-        elif monster_direction == "Right":
-            monster_rect.x += 5
 
         
-        monster_animation()
+        monster.draw(screen)
+        monster.update()
+
         # na screen vykresli - surface hráče, na x,y
         # screen.blit(player_surf, player_rect)
         # na screen vykresli - surface monstra, na x,y
         player.draw(screen)
         player.update()
         
-        screen.blit(monster_surf, monster_rect)
+
 
         elapsed_time += clock.get_time()
         if elapsed_time > 2000:
             invul = False
 
         # detekce kolize a ubírání životů v případě kolize
-        if player_rect.colliderect(monster_rect):
+        if player.rect.colliderect(monster_rect):
             if not invul:
                 lives -= 1
                 invul = True
