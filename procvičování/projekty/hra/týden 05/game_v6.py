@@ -1,5 +1,7 @@
 import pygame
 from sys import exit
+
+# import všech částí kódu hry - nastavení (výška, šířka), pomocné funkce (get_image), classu hráče, classu monstra
 from settings import *
 from utility import get_image
 from player import Player
@@ -17,30 +19,6 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 
-
-# player_x a player_y v nové verzi kódu už řeší pouze spawn
-# player_x = 100
-# player_y = 200
-# player_index = 0
-# player_spritesheet = pygame.image.load("man_brownhair_run.png").convert_alpha()
-# vytvoření surface pro postavičku hráče - načtení obrázku
-# player_surf = get_image(player_spritesheet, 0, 0, 15, 16, 3)
-
-# kvůli detekci kolize nejprve vytvoříme rectangle pro hráče
-# player_rect = player_surf.get_rect(midbottom=(player_x, player_y))
-
-
-# vytvoření surface pro postavičku monster - nepřítele - načtení obrázku
-monster_walk_1 = pygame.image.load("monster_sprite.png").convert_alpha()
-monster_walk_2 = pygame.image.load("monster_sprite_walk.png").convert_alpha()
-monster_walk = [monster_walk_1, monster_walk_2]
-monster_index = 0
-
-monster_surf = monster_walk[monster_index]
-
-# kvůli detekci kolize nejprve vytvoříme rectangle pro monstrum
-monster_rect = monster_surf.get_rect(midbottom=(300, 600))
-
 # počítání životů - začátek
 lives = 3
 
@@ -48,14 +26,19 @@ lives = 3
 font = pygame.font.Font(None, 25)
 
 
-
+# stav hry
 game_over = False
 
+# začátek časomíry
 elapsed_time = 0
 
+# stav nesmrtelnosti hráče
 invul = False
 
+# vytvoření hráče
 player = Player()
+
+# vytvoření monstra
 monster = Monster()
 
 # herní smyčka
@@ -88,13 +71,11 @@ while True:
 
 
 
-        
+        # monster.draw(screen) vykreslí hráče
+        # monster.update() updatuje jeho chování        
         monster.draw(screen)
         monster.update()
 
-        # na screen vykresli - surface hráče, na x,y
-        # screen.blit(player_surf, player_rect)
-        # na screen vykresli - surface monstra, na x,y
         player.draw(screen)
         player.update()
         
@@ -105,11 +86,14 @@ while True:
             invul = False
 
         # detekce kolize a ubírání životů v případě kolize
-        if player.rect.colliderect(monster_rect):
-            if not invul:
-                lives -= 1
-                invul = True
-                elapsed_time = 0
+
+        # TODO kolizi opravíme v příští hodině v pátek v 15.3.
+
+        # if player.rect.colliderect(monster_rect):
+        #     if not invul:
+        #         lives -= 1
+        #         invul = True
+        #         elapsed_time = 0
 
 
         if lives <= 0:

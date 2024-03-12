@@ -1,3 +1,5 @@
+# class Monster, která obsahuje všechny věci k monsterům, jejich vlastnosti, informace a funkce
+
 import pygame
 from utility import get_image
 from settings import *
