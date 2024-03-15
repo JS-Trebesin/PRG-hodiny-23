@@ -13,7 +13,11 @@ class Player(pygame.sprite.Sprite):
          self.spritesheet = pygame.image.load("../assets/player/man_brownhair_run.png").convert_alpha()
          self.image = get_image(self.spritesheet, 0, 0, 15, 16, 3)
          self.rect = self.image.get_rect(midbottom=(self.x, self.y))
+         
          self.lives = 3
+         self.invul = False
+         self.invul_time = 0
+
 
 
     def animation(self, direction):
@@ -25,7 +29,8 @@ class Player(pygame.sprite.Sprite):
 
         self.image = get_image(self.spritesheet, int(self.index), direction, 15, 16, 3)
 
-    def update(self):
+        
+    def update(self, monsters):
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
             self.rect.x -= 10
@@ -49,6 +54,16 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = screen_height - 10
         elif self.rect.y > screen_height:
             self.rect.y = 10
+
+        if pygame.sprite.spritecollide(self, monsters, False):
+             if not self.invul:
+                print("kolize!!!!")
+                self.lives -= 1
+                self.invul = True
+                self.invul_time = 0
+
+        if self.invul_time > 2000:
+            self.invul = False
     
     def draw(self, screen):
         screen.blit(self.image, self.rect)

@@ -29,17 +29,15 @@ font = pygame.font.Font(None, 25)
 # stav hry
 game_over = False
 
-# začátek časomíry
-elapsed_time = 0
-
-# stav nesmrtelnosti hráče
-invul = False
 
 # vytvoření hráče
-player = Player()
+player = pygame.sprite.GroupSingle()
+player.add(Player())
 
 # vytvoření monstra
+monsters = pygame.sprite.Group()
 monster = Monster()
+monsters.add(monster)
 
 # herní smyčka
 while True:
@@ -53,18 +51,13 @@ while True:
     
 
     if game_over == False:
-        # proměnná key, pod ní schováme stisknutou klávesu
-        
-
-        # pokud je stisknutá šipka doleva, atd.
-        # změna ovládání - nyní pohybujeme vytvořením rectanglem
-        
+             
 
         # obarví obrazovku na bílo
         screen.fill((255, 255, 255))
 
         # renderování našeho fontu - pomocí fontu vytvoříme text, antialiasing a barvu
-        text = font.render(f"Lives: {lives}", False, "#000000")
+        text = font.render(f"Lives: {player.sprite.lives}", False, "#000000")
 
         # text vypíšeme do obrazovky
         screen.blit(text, (700, 10))
@@ -77,13 +70,11 @@ while True:
         monster.update()
 
         player.draw(screen)
-        player.update()
+        player.update(monsters)
         
+        player.sprite.invul_time += clock.get_time()
 
-
-        elapsed_time += clock.get_time()
-        if elapsed_time > 2000:
-            invul = False
+        
 
         # detekce kolize a ubírání životů v případě kolize
 
