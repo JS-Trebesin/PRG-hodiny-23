@@ -40,12 +40,12 @@ monsters = pygame.sprite.Group()
 monster = Monster()
 monsters.add(monster)
 
+desk_group = pygame.sprite.Group()
+
 # vytvoření světa
-# level = Level("../assets/tiled/ucebna2.tmx")
+level = Level("../tiled/ucebna-final.tmx", screen, desk_group)
 # level.draw_background()
-path = "../assets/tiled/ucebna2.tmx"
-level = Level(path, screen)
-level.draw_background()
+
 
 # herní smyčka
 while True:
@@ -62,14 +62,14 @@ while True:
              
 
         # obarví obrazovku na bílo
-        screen.fill((255, 255, 255))
+        level.draw_background()
+
 
         # renderování našeho fontu - pomocí fontu vytvoříme text, antialiasing a barvu
         text = font.render(f"Lives: {player.sprite.lives}", False, "#000000")
 
         # text vypíšeme do obrazovky
         screen.blit(text, (700, 10))
-
 
 
         # monster.draw(screen) vykreslí hráče
@@ -82,6 +82,7 @@ while True:
         
         player.sprite.invul_time += clock.get_time()
 
+        desk_group.draw(screen)
         
 
         # detekce kolize a ubírání životů v případě kolize
