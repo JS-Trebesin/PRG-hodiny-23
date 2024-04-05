@@ -41,8 +41,7 @@ monster = Monster()
 monsters.add(monster)
 
 # vytvoření světa
-# level = Level("../assets/tiled/ucebna2.tmx")
-# level.draw_background()
+level = Level("../assets/tiled/ucebna2.tmx", screen)
 
 
 # herní smyčka
