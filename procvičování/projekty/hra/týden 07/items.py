@@ -1,3 +1,4 @@
+# v tomto souboru budeme vytvářet classy k předmětům ve hře
 import pygame
 
 

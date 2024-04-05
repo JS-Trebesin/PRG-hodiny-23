@@ -40,11 +40,11 @@ monsters = pygame.sprite.Group()
 monster = Monster()
 monsters.add(monster)
 
+# vytvoř skupinu pro lavice
 desk_group = pygame.sprite.Group()
 
 # vytvoření světa
 level = Level("../tiled/ucebna-final.tmx", screen, desk_group)
-# level.draw_background()
 
 
 # herní smyčka
@@ -61,7 +61,7 @@ while True:
     if game_over == False:
              
 
-        # obarví obrazovku na bílo
+        # vykresluj pozadí herního světa pomocí funkce draw_background() z classy Level
         level.draw_background()
 
 
@@ -82,19 +82,9 @@ while True:
         
         player.sprite.invul_time += clock.get_time()
 
+        # vykresli lavice
         desk_group.draw(screen)
         
-
-        # detekce kolize a ubírání životů v případě kolize
-
-        # TODO kolizi opravíme v příští hodině v pátek v 15.3.
-
-        # if player.rect.colliderect(monster_rect):
-        #     if not invul:
-        #         lives -= 1
-        #         invul = True
-        #         elapsed_time = 0
-
 
         if lives <= 0:
             game_over = True
