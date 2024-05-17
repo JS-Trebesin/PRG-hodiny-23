@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):
             if dy > 0:
                 self.rect.bottom = desk.rect.top
             # Pohyb nahoru
-            if dx < 0:
+            if dy < 0:
                 self.rect.top = desk.rect.bottom
         
         if self.rect.x < 0:
