@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -15,9 +15,18 @@ def form():
     name = request.args.get("name", default="_____")
     input_class = request.args.get("class", default="_____")
     message = request.args.get("message", default="_____")
-    return render_template("form.html", name=name, form_class=input_class, message=message)
 
+    if name != "_____" and message != "_____" and input_class != "_____":
+        return redirect(url_for("result", name=name, form_class=input_class, message=message))
+    
+    return render_template("form.html")
 
+@app.route("/result")
+def result():
+    name = request.args.get("name", default="_____")
+    input_class = request.args.get("form_class", default="_____")
+    message = request.args.get("message", default="_____")
+    return render_template("result.html", name=name, form_class=input_class, message=message)
 
 
 
