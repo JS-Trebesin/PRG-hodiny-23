@@ -12,6 +12,7 @@ def bye():
 
 @app.route("/form")
 def form():
+    # TODO: odebrat "____"
     name = request.args.get("name", default="_____")
     input_class = request.args.get("class", default="_____")
     message = request.args.get("message", default="_____")
