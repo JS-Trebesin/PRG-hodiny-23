@@ -1,18 +1,27 @@
 import sqlite3
 
 # vytvoření spojení s databází?
-conn = sqlite3.connect("hokus.db")
+connection = sqlite3.connect("hokus.db")
 
 # vytvoření kurzoru, který nám umoňuje navigaci po databázi a vkládání příkazů
-cursor = conn.cursor()
+cursor = connection.cursor()
 
-# zápis do databáze
-# cursor.execute(
-#     "INSERT INTO houses (color) VALUES ('blue')"
-# )
+input_color = input("Add house color: ")
 
-# potvrzení vložení dat do databáze
-# conn.commit()
+#zápis do databáze
+cursor.execute(
+    "INSERT INTO houses (color) VALUES (?)", (input_color,)
+)
+
+#potvrzení vložení dat do databáze
+connection.commit()
+
+
+cursor.execute("SELECT * FROM houses")
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
 
 # uzavření spojení s databází
-conn.close()
+connection.close()
