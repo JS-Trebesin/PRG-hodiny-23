@@ -3,15 +3,20 @@ from flask import Flask, render_template, request, redirect, url_for, g
 
 app = Flask(__name__)
 
+# uložení cesty k databázi pod proměnnou DATABASE (psání proměnné v caps-locku má naznačit, že se jedná o konstantu)
 DATABASE = "instance/database.db"
 
-
+# funkce, pomocí které se připojujeme do databáze
+# g je flaskový object global, do které ukládáme připojení k databázi
 def get_db():
     db = getattr(g, "_database", None)
+    # pokud neexistuje spojení k databázi, vytvoř jej, pokud ano, vrať jej
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
+# spuštění (alternativně vytvoření) databáze
+# podle schématu schema.sql, což je soubor v kořenovém adresáři našeho projektu, který nám vytvoří potřebnou tabulku, pokud neexituje
 def init_db():
     with app.app_context():
         db = get_db()
@@ -19,7 +24,7 @@ def init_db():
             db.cursor().executescript(file.read())
         db.commit()
 
-
+# funkce, která se automaticky spustí a ukončí připojení k databázi, když je to potřeba
 @app.teardown_appcontext
 def close_connection(exception):
     # db = getattr(g, "_database", None)
@@ -44,6 +49,7 @@ def form():
         message = request.form.get("message")
         grade = random.randint(1,5)
 
+        # vytovření z kurzoru z připojení k databízi, pomocí kterého používáme SQL příkazy
         cursor = get_db().cursor()
         cursor.execute(
             f"INSERT INTO students (student_name, class, student_message, grade) VALUES (?, ?, ?, ?)", 
