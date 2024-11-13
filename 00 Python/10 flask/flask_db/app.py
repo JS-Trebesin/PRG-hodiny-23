@@ -58,10 +58,10 @@ def form():
 
 @app.route("/result")
 def result():
-    name = request.args.get("name", default="_____")
-    input_class = request.args.get("form_class", default="_____")
-    message = request.args.get("message", default="_____")
-    return render_template("result.html", name=name, form_class=input_class, message=message)
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM students")
+    rows = cursor.fetchall()
+    return render_template("result_all.html", rows=rows)
 
 @app.route("/result2")
 def result2():
@@ -69,7 +69,7 @@ def result2():
     cursor.execute("SELECT * FROM students")
     rows = cursor.fetchall()
     print(rows)
-    return render_template("result.html", name=name, form_class=input_class, message=message)
+    return render_template("result.html", name=rows[2][1], form_class=rows[2][2], message=rows[2][3])
     # return rows[2][1]
 
 if __name__ == "__main__":
