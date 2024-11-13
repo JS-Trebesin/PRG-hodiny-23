@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, random
 from flask import Flask, render_template, request, redirect, url_for, g
 
 app = Flask(__name__)
@@ -42,9 +42,17 @@ def form():
         name = request.form.get("name")
         input_class = request.form.get("class")
         message = request.form.get("message")
+        grade = random.randint(1,5)
 
-        if name and message and input_class:
-            return redirect(url_for("result", name=name, form_class=input_class, message=message))
+        cursor = get_db().cursor()
+        cursor.execute(
+            f"INSERT INTO students (student_name, class, student_message, grade) VALUES (?, ?, ?, ?)", 
+            (name, input_class, message, grade)
+        )
+
+        get_db().commit()
+
+
     
     return render_template("form.html")
 
@@ -55,7 +63,14 @@ def result():
     message = request.args.get("message", default="_____")
     return render_template("result.html", name=name, form_class=input_class, message=message)
 
-
+@app.route("/result2")
+def result2():
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM students")
+    rows = cursor.fetchall()
+    print(rows)
+    return render_template("result.html", name=name, form_class=input_class, message=message)
+    # return rows[2][1]
 
 if __name__ == "__main__":
     init_db()
