@@ -49,6 +49,15 @@ def form():
         message = request.form.get("message")
         grade = random.randint(1,5)
 
+        if len(input_class) > 3:
+            input_class = "error"
+        
+        if " " in name:
+            name = name.title()
+        else:
+            name = "error"
+
+
         # vytovření z kurzoru z připojení k databízi, pomocí kterého používáme SQL příkazy
         cursor = get_db().cursor()
         cursor.execute(
