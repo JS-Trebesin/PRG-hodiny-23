@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // vytvoření Promise, který se vyřeší a dostaneme výsledek
+            //  nebo odmítne (a vyhodí chybu)
+            const slib = new Promise((resolve, reject) => {
+                const blabla = true
 
-    <script>
-
-        const slib = new Promise((resolve, reject) => {
-            const blabla = true
-
-            if (blabla === true) {
-                resolve("Něco se stalo")
-            } else {
-                reject("Fail")
-            }
-        })
-        
-
-        slib
-            .then((zprava) => {
-                console.log("Blabla", zprava)
+                if (blabla === true) {
+                    resolve("Něco se stalo")
+                } else {
+                    reject("Fail")
+                }
             })
-            .catch((error) => {
+
+            // pokud se slibem pracujeme, musíme počkat na výsledek a poté provedeme nějakou funkci
+            // nebo pomocí .catch zachytíme chybu a provedeme jinou funkci v případě chyby
+            slib.then((zprava) => {
+                console.log("Blabla", zprava)
+            }).catch((error) => {
                 console.log("Chyba", error)
             })
-        
-
-
-    </script>
-</body>
+        </script>
+    </body>
 </html>

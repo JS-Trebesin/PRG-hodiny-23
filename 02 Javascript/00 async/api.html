@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const mojeApi = "https://catfact.ninja/fact"
 
-    <script>
-        const mojeApi = "https://catfact.ninja/fact"
+            // novější způsob práce s API pomocí async/await
 
-        // async vytváří asynchronní funkci
-        async function ziskejData(adresa) {
-            // 
-            try {
-               const odpoved = await fetch(adresa)
+            // async vytváří asynchronní funkci, která získá (fetchne) data z adesy k API
+            async function ziskejData(adresa) {
+                // try / catch vyzkouší operaci a případně zachytí chybu
+                try {
+                    // ulož výsledek fetchnutí pod proměnnou odpoved
+                    // fetch je asynchronní proto klíčové slovo await
+                    const odpoved = await fetch(adresa)
 
-               // vykřičník na začátku znamená opak, aneb když odpoved.ok neexistuje
-               if (!odpoved.ok) {
-                throw new Error("Něco je špatně")
-               }
+                    // vykřičník na začátku znamená opak, aneb když je odpoved.ok !== true
+                    // fetch vrací ok: true pokud se provede správně (dostaneme zpět 200 ok)
+                    // pokud odpoved.ok je false vytvoř nový error
+                    if (!odpoved.ok) {
+                        throw new Error("Něco je špatně")
+                    }
 
-               return await odpoved.json()
-            } catch (error) {
-                console.error("Chyba při zpracování dat", error)
+                    // pokud se nesplnila podmínka, aneb odpoved.ok je true tak vrať odpověď převedenou z jsonu
+                    // .json() je asynchronní, proto await
+                    return await odpoved.json()
+
+                    // pokud kód v try nefunguje, vypiš do konzole chybu
+                } catch (error) {
+                    console.error("Chyba při zpracování dat", error)
+                }
             }
-        }
 
-        async function zobrazData() {
-            const kociciFakta = await ziskejData(mojeApi)
-            if (kociciFakta) {
-                console.log(kociciFakta["fact"])
+            // jelikož získávání dat je asynchronní, jejich zobrazení musí být též asynchronní
+            // protože musí počkat, až se data získají
+            async function zobrazData() {
+                // pod proměnnou kociciFakta ulož výsledek z funkce, která data získává
+                // ziskejData() je asynchronní, proto await
+                const kociciFakta = await ziskejData(mojeApi)
+
+                // pokud kociciFakta existují (rovnají se true) tak je vypiš do konzole
+                // nevypisuj celý object ale jen konkrétní fakt
+                if (kociciFakta) {
+                    console.log(kociciFakta["fact"])
+                }
             }
-        }
 
-        zobrazData()
-
-    </script>
-</body>
+            // funkci zobrazData() je potřeba zavolat, aby se provedla
+            zobrazData()
+        </script>
+    </body>
 </html>
