@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Úžasný vánoční vtip</h1>
+    <p class="output"></p>
+    
+
+    <script>
+
+        async function fetchData(url) {
+
+            try {
+
+                const response = await fetch(url)
+
+
+                if (response.ok !== true) {
+                    throw new Error("Fetch's not working")
+                }
+
+                return await response.json()
+
+
+            } catch (err) {
+                console.log("Error!", err)
+            }
+
+        }
+
+
+        async function displayData(url) {
+            const data = await fetchData(url)
+
+            if (data) {
+                const randomNo = Math.floor(Math.random() * data.length)
+                console.log(data[randomNo]["question"])
+                console.log(data[randomNo]["answer"])
+                document.querySelector(".output").innerText = data[randomNo]["question"] + " " + data[randomNo]["answer"]
+            }
+        }
+
+
+        displayData("https://christmasjoy.dev/api/jokes")
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
