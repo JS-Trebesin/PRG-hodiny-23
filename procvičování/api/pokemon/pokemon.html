@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <p class="output"></p>
+
+
+    <script>
+
+        const user_input = window.prompt("Zadej pokemona")
+        const out = document.querySelector(".output")
+
+        async function fetchData(url) {
+            console.log("fetching data")
+            try {
+                const response = await fetch(url)
+
+                if (!response.ok) {
+                    throw new Error
+                }
+                
+                console.log(response)
+                return await response.json()
+            } catch (error) {
+                console.error("Někde je chyba, ", error)
+            }
+        }
+
+        async function processData() {
+            console.log("Processing data")
+            console.log(`https://pokeapi.co/api/v2/pokemon/${user_input}`)
+            const pokemonData = await fetchData(`https://pokeapi.co/api/v2/pokemon/${user_input}`)
+            console.log(pokemonData)
+
+            if (pokemonData) {
+               out.innerText = pokemonData["abilities"][0]["ability"]["name"]
+               console.log(user_input)
+               console.log(pokemonData["abilities"][0]["ability"]["name"])
+               // out.innerText = pokemonData.abilities[0].ability.name
+            }
+        }
+        console.log(user_input)
+
+        processData()
+
+    </script>
+</body>
+</html>
