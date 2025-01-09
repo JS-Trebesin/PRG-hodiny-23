@@ -1,3 +1,5 @@
+# ukázka využití API pro komunikaci s AI (nepovinná látka)
+
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os

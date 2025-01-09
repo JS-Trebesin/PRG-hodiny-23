@@ -19,7 +19,8 @@
             console.log("fetching data")
             try {
                 const response = await fetch(url)
-
+                
+                // kontrola HTTP chyb, v případě chyby vytvoří error, který zachytíme níže v catch a tam jej vypíšeme
                 if (!response.ok) {
                     throw new Error
                 }
@@ -33,6 +34,8 @@
 
         async function processData() {
             console.log("Processing data")
+            // template literals v javascript jsou totéžné funkcionálně jako f-string v pythonu, 
+            // píšou se ale speciálníma uvozovka  `` a proměnná se vkládá do složených závorek, nicméně je potřeba přidat i dolar ${}
             console.log(`https://pokeapi.co/api/v2/pokemon/${user_input}`)
             const pokemonData = await fetchData(`https://pokeapi.co/api/v2/pokemon/${user_input}`)
             console.log(pokemonData)
@@ -41,7 +44,8 @@
                out.innerText = pokemonData["abilities"][0]["ability"]["name"]
                console.log(user_input)
                console.log(pokemonData["abilities"][0]["ability"]["name"])
-               // out.innerText = pokemonData.abilities[0].ability.name
+               // alternativní zápis v javascriptu
+               // out.innerText = pokemonData.abilities[0].ability.name 
             }
         }
         console.log(user_input)
