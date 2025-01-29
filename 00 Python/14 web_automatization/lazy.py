@@ -12,6 +12,10 @@ def main():
 
         page.click('span[class="login pl-2"]')
 
+        page.fill('input[id="username"]', "souhrada")
+
+        input("Klikni na cokoliv pro zavření prohlížeče")
+        browser.close()
 
 if __name__ == "__main__":
     main()
