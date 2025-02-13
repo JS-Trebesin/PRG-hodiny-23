@@ -7,10 +7,16 @@
     <style>
         h1 {
             color: salmon;
+            border: 2px solid red;
+            transform: translate(100px)
+
         }
 
         h2 {
             color: aqua;
+            border: 2px solid blue;
+            transform: rotate(45deg);
+
         }
         
         .nadpisy {
@@ -26,6 +32,10 @@
             color: firebrick;
         }
 
+        span {
+            border: 2px solid green;
+        }
+
     </style>
 </head>
 <body>
@@ -33,11 +43,11 @@
     <h1 style="color: blue;">Dobrý den</h1>
     <h2 class="podnadpisy nadpisy" id="podnadpis">Nashledanou</h2>
     <h3 class="mensi-podnadpis">Znovu dobrý den</h3>
-    <input type="radio">Možnost 1
-    <input type="radio">Možnost 2
-    <input type="radio">Možnost 3
+    <input class="options" name="options" type="radio">Možnost 1
+    <input class="options" name="options" type="radio">Možnost 2
+    <input class="options" name="options" type="radio">Možnost 3
     <!-- TODO: label -->
-    
+    <span>Blabla</span>
 
 
 
