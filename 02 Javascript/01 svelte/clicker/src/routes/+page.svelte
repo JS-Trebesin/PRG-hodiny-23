@@ -1,13 +1,19 @@
 <script>
 	import Timer from "$lib/components/Timer.svelte"
+	import Upgrade from "$lib/components/Upgrade.svelte"
+    import { multiplier } from "$lib/shared.svelte"
 
     let count = $state(0)
     let animPop = $state()
     let animBtn = $state()
 
     function increment() {
-        count++
+        count = count + multiplier.multi // multiplier["multi"]
         animBtn = "anim-btn"
+
+        setTimeout(() => {
+            animBtn = ""
+        }, 100)
 
     }
 
@@ -24,6 +30,10 @@
 
 
 <Timer />
+<Upgrade upgradeLevel={1}/>
+<Upgrade upgradeLevel={2}/>
+<Upgrade upgradeLevel={3}/>
+
 
 <div class="wrapper">
     <p class={animPop}>{count}</p>
@@ -52,7 +62,7 @@
     }
 
     .anim-btn {
-        animation: btn-anim 1s;
+        animation: btn-anim 0.1s;
     }
 
     .anim-pop {
