@@ -1,14 +1,17 @@
 <script>
 	import Timer from "$lib/components/Timer.svelte"
 	import Upgrade from "$lib/components/Upgrade.svelte"
-    import { multiplier } from "$lib/shared.svelte"
+    import { shared } from "$lib/shared.svelte"
 
-    let count = $state(0)
+    
     let animPop = $state()
     let animBtn = $state()
 
+    const colours = ["rebeccapurple", "deeppink", "Teal", "firebrick", "lime"]
+    let selectedColour = $state(colours[0])
+
     function increment() {
-        count = count + multiplier.multi // multiplier["multi"]
+        shared.count = shared.count + shared.multi // shared["multi"]
         animBtn = "anim-btn"
 
         setTimeout(() => {
@@ -18,7 +21,7 @@
     }
 
     $effect(() => {
-        if (count > 0) {
+        if (shared.count > 0) {
             animPop = "anim-pop"
         }
 
@@ -34,15 +37,19 @@
 <Upgrade upgradeLevel={2}/>
 <Upgrade upgradeLevel={3}/>
 
+{#each colours as colour}
+    <button class="circle" onclick={() => selectedColour = colour} aria-label={colour} style="--colour: {colour}"></button>
+{/each}
+
 
 <div class="wrapper">
-    <p class={animPop}>{count}</p>
-    <button class="btn {animBtn}" onclick={increment}>Click me!</button>
+    <p class={animPop}>{shared.count}</p>
+    <button class="btn {animBtn}" onclick={increment} style="--colour: {selectedColour}">Click me!</button>
 </div>
 
 
 <style>
-
+    
     .wrapper {
         display: flex;
         justify-content: center;
@@ -57,7 +64,7 @@
         border: 2px solid black;
         padding: 1em 2em;
         border-radius: 5000px;
-        background-color: rebeccapurple;
+        background-color: var(--colour, rebeccapurple);
         color: white;
     }
 
@@ -67,6 +74,14 @@
 
     .anim-pop {
         animation: popout 0.1s;
+    }
+
+    .circle {
+        aspect-ratio: 1/1;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--colour, lime);
+        margin-inline: 2px;
     }
 
     @keyframes popout {
