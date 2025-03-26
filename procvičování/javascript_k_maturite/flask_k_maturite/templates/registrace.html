@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Registrace do klubu profesionálních céčkařů</h1>
+
+    <form method="get">
+        <label for="name">Jméno:</label>
+        <input name="name" type="text">
+        <label for="count">Je hrdým vlastníkem kolik céček?</label>
+        <input name="count" type="number">
+        <button type="submit">Odeslat registraci</button>
+    </form>
+
+    <p> {{ jinja_name }}  vítej v klubu, můžeš vytvořit skvělý náramek z {{ jinja_count }} céček</p>
+</body>
+</html>

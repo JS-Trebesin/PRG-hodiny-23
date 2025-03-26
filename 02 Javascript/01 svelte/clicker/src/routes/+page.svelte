@@ -7,6 +7,8 @@
     let animPop = $state()
     let animBtn = $state()
 
+    let text = $state("")
+
     const colours = ["rebeccapurple", "deeppink", "Teal", "firebrick", "lime"]
     let selectedColour = $state(colours[0])
 
@@ -29,6 +31,8 @@
             animPop = ""
         }, 100)
     })
+
+
 </script>
 
 

@@ -1,5 +1,5 @@
 <script>
-    import { multiplier } from "$lib/shared.svelte"
+    import { shared } from "$lib/shared.svelte"
 
     let shopClicked = $state(false)
 
@@ -9,11 +9,11 @@
         shopClicked = !shopClicked
 
         if ( upgradeLevel === 1) {
-            multiplier.multi = 2
+            shared.multi = 2
         } else if ( upgradeLevel === 2) {
-            multiplier.multi = 5
+            shared.multi = 5
         } else if ( upgradeLevel === 3) {
-            multiplier.multi = 10
+            shared.multi = 10
         }
     }
 </script>
