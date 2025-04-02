@@ -9,11 +9,11 @@ def index():
 @app.route("/registrace")
 def registrace():
     name = request.args.get("name")
-    print(name)
     c_count = request.args.get("count")
 
-    if c_count != "" and int(c_count) > 17:
-        return render_template("registrace.html", jinja_count=c_count, jinja_name=name)
+    if c_count != "" and c_count != None:
+        if int(c_count) > 17:
+            return render_template("registrace.html", jinja_count=c_count, jinja_name=name)
 
     return render_template("registrace.html")
 
